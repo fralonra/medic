@@ -5,11 +5,12 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import routes from 'APP/routes';
 import { style } from 'APP/config';
 
+import './index.less';
+
 const styles = {
   content: {
-    flex: '1 1 auto',
     background: style.background.content
-  },
+  }
 };
 
 export default class Content extends Component {
@@ -17,13 +18,10 @@ export default class Content extends Component {
     super(props);
   }
 
-  onButtonAddClick () {
-
-  }
-
   render () {
     return (
-      <Switch style={styles.content}>
+      <div className="content" style={styles.content}>
+        <Switch>
         {routes.map((route, index) => (
           <Route
             key={index}
@@ -32,7 +30,8 @@ export default class Content extends Component {
             component={route.component}
           />
         ))}
-      </Switch>
+        </Switch>
+      </div>
     );
   }
 }

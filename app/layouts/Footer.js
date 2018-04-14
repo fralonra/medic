@@ -4,10 +4,12 @@ import { style } from 'APP/config';
 
 const styles = {
   footer: {
-    flex: '0 0 auto',
     background: style.background.footer
-  },
+  }
 };
+
+const yearOfStart = 2018;
+const yearOfNow = new Date().getFullYear();
 
 export default class Footer extends Component {
   constructor (props) {
@@ -20,7 +22,11 @@ export default class Footer extends Component {
 
   render () {
     return (
-      <div style={styles.footer}>
+      <div className="footer" style={styles.footer}>
+        {yearOfNow === yearOfStart ?
+          yearOfNow :
+          `${yearOfStart}-${yearOfNow}`
+        }
       </div>
     );
   }

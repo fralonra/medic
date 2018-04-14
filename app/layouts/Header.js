@@ -1,29 +1,16 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import {
   Row,
-  Navbar, NavbarBrand, Nav } from 'reactstrap';
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
+  Nav, Navbar, NavbarBrand, NavItem } from 'reactstrap';
+import PropTypes from 'prop-types';
 
+import { Dropdown, DropdownMenu, DropdownToggle, NavLink } from 'APP/components';
 import { navRoute as routes } from 'APP/routes';
 import { style } from 'APP/config';
 
 const styles = {
   header: {
-    flex: '0 0 auto',
-    background: style.background.header,
-    padding: '1rem'
-  },
-  navbar: {
-    width: '30%',
-    minWidth: '200px',
-    maxWidth: '400px'
-  },
-  navitem: {
-    margin: '0 0.5rem'
-  },
-  navlink: {
-    textDecoration: 'none'
+    background: style.background.header
   }
 };
 
@@ -41,49 +28,44 @@ class Header extends Component {
     return result;
   }
 
-  onButtonAddClick () {
-
-  }
-
   render () {
+    const { user, logout } = this.props;
     return (
-      <Navbar style={styles.header}>
+      <Navbar className="header" style={styles.header}>
         <NavbarBrand href="/">medic</NavbarBrand>
-        <Row style={styles.navbar}>
-          {routes.map((route, index) => {
-            const param = route.paramFromState ? this.getParamFromState(route.paramFromState) : '';
-            return (
-              <Nav style={styles.navitem} key={index}>
-                <Link style={styles.navlink} to={route.paramFromState ?
+        <Row>
+          <Nav className="header-navbar">
+            {routes.map((route, index) => {
+              const param = route.paramFromState ? this.getParamFromState(route.paramFromState) : '';
+              return (
+                <NavLink key={index} to={route.paramFromState ?
                   `${route.basicPath}/${param}` :
-                  route.path}>{route.name}</Link>
-              </Nav>
-            );
-          })}
-          <Nav style={styles.navitem}>
-            {this.props.user.id <= 0 ? (
-              <Link to='/login'>Login</Link>
+                  route.path}>{route.name}
+                </NavLink>
+              );
+            })}
+            {!user.name ? (
+              <NavLink to='/login'>Login</NavLink>
             ) : (
-              <Link to={`/profile/${this.props.user.id}`}>{this.props.user.name}</Link>
+              <Dropdown>
+                <DropdownToggle>
+                  <NavLink to={`/profile/${user.name}`}>{user.name}</NavLink>
+                </DropdownToggle>
+                <DropdownMenu>
+                  <div onClick={() => {logout()}}>Logout</div>
+                </DropdownMenu>
+              </Dropdown>
             )}
           </Nav>
-          {this.props.user.id > 0 &&
-            <Nav style={styles.navitem}>
-              <Link to={'/logout'}>Logout</Link>
-            </Nav>
-          }
         </Row>
       </Navbar>
     );
   }
 }
 
-const mapStateToProps = (state) => {
-  return {
-    user: state.auth.user
-  };
+Header.propTypes = {
+  user: PropTypes.object,
+  logout: PropTypes.func
 };
 
-export default connect(
-  mapStateToProps
-)(Header);
+export default Header;

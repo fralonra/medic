@@ -1,23 +1,9 @@
 import axios from 'axios';
 
 const config = {
-  baseURL: '/api',
-  transformRequest: [
-    function (data) {
-      let ret = '';
-      for (let it in data) {
-        ret += encodeURIComponent(it) + '=' + encodeURIComponent(data[it]) + '&';
-      }
-      return ret;
-    }
-  ],
-  transformResponse: [
-    function (data) {
-      return data;
-    }
-  ],
+  baseURL: '/',
   headers: {
-    'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+    'Content-Type': 'application/json'//x-www-form-urlencoded;charset=UTF-8'
   },
   timeout: 10000,
   responseType: 'json'

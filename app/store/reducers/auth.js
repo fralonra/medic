@@ -2,8 +2,7 @@ import { handleActions } from 'redux-actions';
 import { actionTypes as actions } from 'APP/store/actions';
 
 const initialUser = {
- id: 0,
- name: ''
+ name: null
 };
 
 const initialState = {
@@ -11,7 +10,13 @@ const initialState = {
 };
 
 const reducers = handleActions({
-    [actions.USER_LOGIN] (state, action) {
+  [actions.USER_INFO] (state, action) {
+    return {
+      ...state,
+      user: action.payload
+    };
+  },
+  [actions.USER_LOGIN] (state, action) {
     return {
       ...state,
       user: action.payload

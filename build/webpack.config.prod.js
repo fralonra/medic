@@ -1,13 +1,16 @@
 const webpack = require("webpack");
 const merge = require('webpack-merge');
+const CleanWebpackPlugin = require('clean-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const webpackBaseConfig = require('./webpack.config.base.js');
 
+const config = require('./config');
+
 module.exports = merge(webpackBaseConfig, {
   optimization: {
     splitChunks: {
-    	chunks: "async",
+    	chunks: 'all',
     	minSize: 30000,
     	minChunks: 1,
     	maxAsyncRequests: 5,
@@ -27,6 +30,9 @@ module.exports = merge(webpackBaseConfig, {
     }
   },
   plugins: [
+    new CleanWebpackPlugin([config.dirDes], {
+      root: config.dirRoot
+    }),
     new ExtractTextPlugin({
       filename: '[name].[hash].css',
       allChunks: true

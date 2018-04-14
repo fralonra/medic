@@ -6,7 +6,7 @@ const styles = {
   }
 };
 
-export default class TextInput extends Component {
+class TextInput extends Component {
   constructor (props) {
     super(props);
   }
@@ -21,3 +21,5 @@ export default class TextInput extends Component {
     );
   }
 }
+
+export default TextInput;

@@ -7,7 +7,7 @@ const config = require('./config');
 module.exports = merge(webpackBaseConfig, {
   devtool: 'inline-source-map',
   devServer: {
-    contentBase: config.folderDes,
+    contentBase: config.dirDes,
     port: config.port,
     compress: true,
     hot: true

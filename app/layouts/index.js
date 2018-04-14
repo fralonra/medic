@@ -1,6 +1,7 @@
 import Content from './Content';
 import Header from './Header';
 import Footer from './Footer';
+import ErrorBoundary from './ErrorBoundary';
 
 import About from './About';
 import Home from './Home';
@@ -14,6 +15,7 @@ export {
   Content,
   Header,
   Footer,
+  ErrorBoundary,
   // Navs
   About,
   Home,

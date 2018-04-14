@@ -5,6 +5,7 @@
     "react"
   ],
   "plugins": [
+    "react-hot-loader/babel",
     "transform-runtime"
   ],
   "comments": false

@@ -16,36 +16,37 @@ const styles = {
     padding: '0.5rem'
   },
   submit: {
-    padding: '0.5rem'
   }
 };
 
-export default class Search extends Component {
+class Search extends Component {
   constructor (props) {
     super(props);
 
-    this.onInputChange = this.onInputChange.bind(this);
-    this.onSubmit = this.onSubmit.bind(this);
+    this.state = {
+      query: ''
+    };
   }
 
-  onInputChange () {
-
-  }
-
-  onSubmit () {
-
+  onQueryChange (e) {
+    this.setState({
+      query: e.target.value
+    });
   }
 
   render () {
+    const { onSubmit } = this.props;
     return (
       <div style={styles.search}>
-        <Input style={styles.input} placeholder="Go for it" onChange={this.onInputChange} />
-        <FeatherButton icon="Search" style={styles.submit} />
+        <Input style={styles.input} placeholder="Go for it" onChange={(e) => {this.onQueryChange(e)}}/>
+        <FeatherButton icon="Search" onClick={() => {onSubmit(this.state.query)}} style={styles.submit}/>
       </div>
     );
   }
 }
 
 Search.propTypes = {
-
+  onSubmit: PropTypes.func
 }
+
+export default Search;

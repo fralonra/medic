@@ -5,6 +5,9 @@ const initialState = {
   isFetching: false,
   message: {
     type: 'INFO',
+    autoHide: false,
+    delay: 0,
+    duration: 2000,
     text: ''
   }
 };
@@ -25,7 +28,10 @@ const reducers = handleActions({
   [actions.messageSet] (state, action) {
     return {
       ...state,
-      message: action.payload
+      message: {
+        ...initialState.message,
+        ...action.payload
+      }
     };
   }
 }, initialState);

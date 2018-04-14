@@ -1,36 +1,82 @@
 import { call, put, takeLatest } from 'redux-saga/effects';
+import sha256 from 'crypto-js/sha256';
 
 import { actionTypes } from 'APP/store/actions';
 import { authTypes, messageTypes } from 'APP/store/types';
-import { post } from 'APP/lib/fetch';
+import { get, post } from 'APP/lib/fetch';
 import { api } from 'APP/config';
 
 export default function* authSagas() {
-  /* while (true) {
-    let request = yield take(IndexActionTypes.USER_LOGIN);
-    let response = yield call(login, request.username, request.password);
-    if(response&&response.code === 0){
-      yield put({type:IndexActionTypes.SET_MESSAGE,msgContent:'登录成功!',msgType:1});
-      yield put({type:IndexActionTypes.RESPONSE_USER_INFO,data:response.data})
-    }
-  }
-  //yield* [
-    while (true) {
-      const action = yield take(actionTypes.USER_LOGIN);
-      yield fork(userLogin, action.username, action.password);
-    }*/
-  //];
   yield takeLatest(actionTypes.USER_AUTH, userAuth);
-  //yield takeLatest(actionTypes.USER_LOGIN, userLogin);
-  //yield takeLatest(actionTypes.USER_LOGOUT, userLogout);
-  //yield takeLatest(actionTypes.USER_SIGNUP, userSignup);
 }
 
 function* userAuth(data) {
-  const type = data.type;
+  const type = data.payload.type;
   yield put({type: actionTypes.FETCH_START});
   try {
-    return yield call(post, api.userLogin, data);
+    const res = yield call(userAuthRequest, type, data.payload);
+    if (!res.error) {
+      yield call(userAuthHandle, type, res.user);
+    } else {
+      yield put({
+        type: actionTypes.MESSAGE_SET,
+        message: {
+          type: messageTypes.ERROR,
+          text: `Auth failed: ${res.error}`
+        }
+      });
+    }
+  } catch (error) {
+  } finally {
+    yield put({type: actionTypes.FETCH_END});
+  }
+}
+
+function* userAuthRequest(type, data) {
+  switch (type) {
+    case authTypes.INFO:
+      return yield call(userInfo);
+    case authTypes.LOGIN:
+      return yield call(userLogin, data);
+    case authTypes.LOGOUT:
+      return yield call(userLogout, data);
+    case authTypes.SIGNUP:
+      return yield call(userSignup, data);
+    default:
+      return null;
+  }
+}
+
+function* userAuthHandle(type, data) {
+  switch (type) {
+    case authTypes.INFO:
+      return yield put({
+        type: actionTypes.USER_INFO,
+        payload: data
+      });
+    case authTypes.LOGIN:
+      return yield put({
+        type: actionTypes.USER_LOGIN,
+        payload: data
+      });
+    case authTypes.LOGOUT:
+      return yield put({
+        type: actionTypes.USER_LOGOUT,
+        payload: data
+      });
+    case authTypes.SIGNUP:
+      return yield put({
+        type: actionTypes.USER_SIGNUP,
+        payload: data
+      });
+    default:
+      return null;
+  }
+}
+
+function* userInfo() {
+  try {
+    return yield call(get, api.userInfo);
   } catch (error) {
     yield put({
       type: actionTypes.MESSAGE_SET,
@@ -40,14 +86,12 @@ function* userAuth(data) {
       }
     });
   } finally {
-    yield put({type: actionTypes.FETCH_END});
   }
 }
 
 function* userLogin(data) {
-  yield put({type: actionTypes.FETCH_START});
   try {
-    return yield call(post, api.userLogin, data);
+    return yield call(post, api.userLogin, buildUpUser(data));
   } catch (error) {
     yield put({
       type: actionTypes.MESSAGE_SET,
@@ -57,14 +101,12 @@ function* userLogin(data) {
       }
     });
   } finally {
-    yield put({type: actionTypes.FETCH_END});
   }
 }
 
-function* userLogout(username) {
-  yield put({type: actionTypes.FETCH_START});
+function* userLogout(data) {
   try {
-    return yield call(post, api.userLogout, username);
+    return yield call(post, api.userLogout, data);
   } catch (error) {
     yield put({
       type: actionTypes.MESSAGE_SET,
@@ -74,14 +116,12 @@ function* userLogout(username) {
       }
     });
   } finally {
-    yield put({type: actionTypes.FETCH_END});
   }
 }
 
 function* userSignup(data) {
-  yield put({type: actionTypes.FETCH_START});
   try {
-    return yield call(post, api.userSignup, data);
+    return yield call(post, api.userSignup, buildUpUser(data));
   } catch (error) {
     yield put({
       type: actionTypes.MESSAGE_SET,
@@ -91,6 +131,13 @@ function* userSignup(data) {
       }
     });
   } finally {
-    yield put({type: actionTypes.FETCH_END});
   }
+}
+
+function buildUpUser(data) {
+  const hash = sha256(data.password).toString();
+  return {
+    username: data.username,
+    password: hash
+  };
 }
