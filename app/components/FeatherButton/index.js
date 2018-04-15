@@ -17,15 +17,10 @@ class FeatherButton extends Component {
   }
 
   render () {
-    const {
-      icon,
-      style,
-      size,
-      ...attributes
-    } = this.props;
+    const { icon, style, size, ...attributes } = this.props;
     const Feather = Icon[icon];
     return (
-      <div classNames="cpn-feather-button" style={Object.assign(style, {
+      <div className="cpn-feather-button" style={Object.assign(style, {
         width: size + margin * 2,
         height: size + margin * 2
       })} {...attributes}>

@@ -2,21 +2,14 @@ import { handleActions } from 'redux-actions';
 import { actionTypes as actions } from 'APP/store/actions';
 
 const initialState = {
-  keyword: '',
-  entries: []
+  current: ''
 };
 
 const reducers = handleActions({
-  [actions.QUERY_DONE] (state, action) {
+  [actions.ENTRY_SET] (state, action) {
     return {
       ...state,
-      entries: action.payload
-    };
-  },
-  [actions.QUERY_KEYWORD_SET] (state, action) {
-    return {
-      ...state,
-      keyword: action.payload
+      current: action.payload
     };
   }
 }, initialState);

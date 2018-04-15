@@ -55,7 +55,8 @@ module.exports = {
   resolve: {
     alias: {
       'ROOT': path.resolve(__dirname, '..'),
-      'APP': path.resolve(__dirname, '../app')
+      'APP': path.resolve(__dirname, '../app'),
+      'SERVER': path.resolve(__dirname, '../server')
     }
   }
 };

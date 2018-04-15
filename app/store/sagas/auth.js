@@ -91,7 +91,7 @@ function* userInfo() {
 
 function* userLogin(data) {
   try {
-    return yield call(post, api.userLogin, buildUpUser(data));
+    return yield call(post, api.userLogin, buildUser(data));
   } catch (error) {
     yield put({
       type: actionTypes.MESSAGE_SET,
@@ -121,7 +121,7 @@ function* userLogout(data) {
 
 function* userSignup(data) {
   try {
-    return yield call(post, api.userSignup, buildUpUser(data));
+    return yield call(post, api.userSignup, buildUser(data));
   } catch (error) {
     yield put({
       type: actionTypes.MESSAGE_SET,
@@ -134,7 +134,7 @@ function* userSignup(data) {
   }
 }
 
-function buildUpUser(data) {
+function buildUser(data) {
   const hash = sha256(data.password).toString();
   return {
     username: data.username,

@@ -1,5 +1,5 @@
 module.exports = (fastify, opts, next) => {
-  fastify.get('/', fastify.controller.query.query);
+  fastify.get('/:keyword', fastify.controller.query.query);
 
   next();
 };

@@ -2,8 +2,10 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Container,
   Nav, Navbar } from 'reactstrap';
+import { withRouter } from 'react-router-dom';
 
-import { NavLink, Search } from 'APP/components';
+import { Search } from 'APP/components';
+import actions from 'APP/store/actions';
 
 import './index.less';
 
@@ -12,8 +14,12 @@ class Home extends Component {
     super(props);
   }
 
+  search (query) {
+    this.props.setKeyword(query);
+    this.props.history.push('/query');
+  }
+
   render () {
-    const { search } = this.props;
     return (
       <Container className="home" fluid>
         <Navbar>
@@ -22,18 +28,25 @@ class Home extends Component {
         </Navbar>
         <h1>Medic</h1>
         <p>Your open source dictionary online</p>
-        <Search onSubmit={(query) => {search(query)}}/>
+        <Search onSubmit={(query) => {this.search(query)}}/>
       </Container>
     );
   }
 }
 
 const mapStateToProps = (state) => {
+  return {};
+};
+
+const mapDispatchToProps = (dispatch) => {
   return {
-    user: state.auth.user
+    setKeyword: (payload) => {
+      dispatch(actions.queryKeywordSet(payload));
+    }
   };
 };
 
-export default connect(
-  mapStateToProps
-)(Home);
+export default withRouter(connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Home));

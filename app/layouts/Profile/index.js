@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 
 import './index.less';
 
-export default class Profile extends Component {
+class Profile extends Component {
   constructor (props) {
     super(props);
   }
@@ -28,3 +28,5 @@ Profile.propTypes = {
 Profile.defaultProps = {
  username: ''
 }
+
+export default Profile;

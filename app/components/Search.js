@@ -35,10 +35,10 @@ class Search extends Component {
   }
 
   render () {
-    const { onSubmit } = this.props;
+    const { value, onSubmit } = this.props;
     return (
       <div style={styles.search}>
-        <Input style={styles.input} placeholder="Go for it" onChange={(e) => {this.onQueryChange(e)}}/>
+        <Input style={styles.input} placeholder="Go for it" value={value} onChange={(e) => {this.onQueryChange(e)}}/>
         <FeatherButton icon="Search" onClick={() => {onSubmit(this.state.query)}} style={styles.submit}/>
       </div>
     );
@@ -46,6 +46,7 @@ class Search extends Component {
 }
 
 Search.propTypes = {
+  value: PropTypes.string,
   onSubmit: PropTypes.func
 }
 

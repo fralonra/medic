@@ -13,7 +13,7 @@ const styles = {
   }
 };
 
-export default class Content extends Component {
+class Content extends Component {
   constructor (props) {
     super(props);
   }
@@ -22,16 +22,18 @@ export default class Content extends Component {
     return (
       <div className="content" style={styles.content}>
         <Switch>
-        {routes.map((route, index) => (
-          <Route
-            key={index}
-            path={route.path}
-            exact={route.exact}
-            component={route.component}
-          />
-        ))}
+          {routes.map((route, index) => (
+            <Route
+              key={index}
+              path={route.path}
+              exact={route.exact}
+              component={route.component}
+            />
+          ))}
         </Switch>
       </div>
     );
   }
 }
+
+export default Content;

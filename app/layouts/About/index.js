@@ -3,7 +3,7 @@ import { Button } from 'reactstrap';
 
 import './index.less';
 
-export default class About extends Component {
+class About extends Component {
   constructor (props) {
     super(props);
   }
@@ -20,3 +20,5 @@ export default class About extends Component {
     );
   }
 }
+
+export default About;

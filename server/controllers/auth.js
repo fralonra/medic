@@ -3,7 +3,7 @@ const resTypes = require('./resTypes').auth;
 const sendError = require('../lib/controller').sendError;
 
 const initialUser = {
- name: null
+  name: null
 };
 
 module.exports = {
@@ -35,8 +35,8 @@ module.exports = {
           name: username,
           pwHash: password
         })
-        .then((result) => {
-          return login(req, rep, result);
+        .then((user) => {
+          return login(req, rep, user);
         })
         .catch((err) => {
           console.log(err);

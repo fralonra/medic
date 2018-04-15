@@ -3,4 +3,6 @@ const notFound = {
   message: 'Entry not found.'
 };
 
-module.exports = {};
+module.exports = {
+  notFound
+};

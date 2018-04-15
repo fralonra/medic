@@ -14,6 +14,9 @@ axios.interceptors.response.use(function (res) {
   return res.data;
 });
 
+export function del(url) {
+  return axios.delete(url, config);
+}
 
 export function get(url) {
   return axios.get(url, config);
@@ -21,4 +24,8 @@ export function get(url) {
 
 export function post(url, data) {
   return axios.post(url, data, config);
+}
+
+export function put(url, data) {
+  return axios.put(url, data, config);
 }

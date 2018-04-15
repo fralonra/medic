@@ -11,7 +11,7 @@ const styles = {
 const yearOfStart = 2018;
 const yearOfNow = new Date().getFullYear();
 
-export default class Footer extends Component {
+class Footer extends Component {
   constructor (props) {
     super(props);
   }
@@ -31,3 +31,5 @@ export default class Footer extends Component {
     );
   }
 }
+
+export default Footer;

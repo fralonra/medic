@@ -9,6 +9,7 @@ import Profile from './Profile';
 
 import Entry from './Entry';
 import Login from './Login';
+import Query from './Query';
 
 export {
   // Layouts
@@ -22,5 +23,6 @@ export {
   Profile,
   // Others
   Entry,
-  Login
+  Login,
+  Query
 };

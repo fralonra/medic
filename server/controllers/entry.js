@@ -13,8 +13,8 @@ module.exports = {
   post (req, rep) {
     const entry = req.body;
     Entry.create(entry)
-    .then((result) => {
-      return login(req, rep, result);
+    .then((entry) => {
+      return rep.send({ entry });
     })
     .catch((err) => {
       console.log(err);

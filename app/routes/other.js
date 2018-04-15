@@ -1,11 +1,15 @@
 import React from 'react';
 
-import { Entry, Login, Profile } from 'APP/layouts';
+import { Entry, Query, Login, Profile } from 'APP/layouts';
 
 const routes = [{
   name: 'Entry',
   path: '/e/:entry',
-  component: ({ match }) => <Entry id={match.params.entry} />
+  component: ({ match }) => <Entry title={match.params.entry} />
+}, {
+  name: 'Query',
+  path: '/query',
+  component: () => <Query />
 }, {
   name: 'Login',
   path: '/login',
@@ -13,7 +17,7 @@ const routes = [{
 }, {
   name: 'Profile',
   basicPath: '/profile',
-  paramFromState: ['user', 'name'],
+  paramFromProp: ['user', 'name'],
   path: '/profile/:username',
   navs: true,
   component: ({ match }) => <Profile username={match.params.username} />

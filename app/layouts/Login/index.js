@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Redirect } from "react-router-dom";
 import {
@@ -54,7 +53,7 @@ class Login extends Component {
   }
 
   onInputChange (value, type, cb) {
-    this.setState((prevState) => ({
+    this.setState(prevState => ({
       [type]: value
     }), cb);
   }
@@ -127,14 +126,14 @@ class Login extends Component {
           <InputGroupAddon addonType="prepend">
             <Button color="primary" size="sm"><User size={20} /></Button>
           </InputGroupAddon>
-          <Input value={this.state.username} onInput={ (e) => this.onUsernameChange(e) } placeholder="username" />
+          <Input value={this.state.username} onChange={ e => this.onUsernameChange(e) } placeholder="username" />
         </InputGroup>
         <br />
         <InputGroup>
           <InputGroupAddon addonType="prepend">
             <Button color="primary" size="sm"><Lock size={20} /></Button>
           </InputGroupAddon>
-          <Input value={this.state.password} onInput={ (e) => this.onPasswordChange(e) } placeholder="password" type="password" />
+          <Input value={this.state.password} onChange={ e => this.onPasswordChange(e) } placeholder="password" type="password" />
         </InputGroup>
         <br />
         {this.state.activeTab === LoginTab ?
@@ -148,7 +147,7 @@ class Login extends Component {
             <InputGroupAddon addonType="prepend">
               <Button color="primary" size="sm"><Lock size={20} /></Button>
             </InputGroupAddon>
-            <Input value={this.state.passwordRe} onInput={ (e) => this.onPasswordReChange(e) } placeholder="password again" type="password" />
+            <Input value={this.state.passwordRe} onChange={ e => this.onPasswordReChange(e) } placeholder="password again" type="password" />
           </InputGroup>
         }
       </div>

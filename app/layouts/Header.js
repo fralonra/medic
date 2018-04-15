@@ -19,7 +19,7 @@ class Header extends Component {
     super(props);
   }
 
-  getParamFromState (param) {
+  getParamFromProp (param) {
     const params = typeof param === 'object' ? param : Array.of(param);
     let result = this.props;
     params.forEach(p => {
@@ -36,9 +36,9 @@ class Header extends Component {
         <Row>
           <Nav className="header-navbar">
             {routes.map((route, index) => {
-              const param = route.paramFromState ? this.getParamFromState(route.paramFromState) : '';
+              const param = route.paramFromProp ? this.getParamFromProp(route.paramFromProp) : '';
               return (
-                <NavLink key={index} to={route.paramFromState ?
+                <NavLink key={index} to={route.paramFromProp ?
                   `${route.basicPath}/${param}` :
                   route.path}>{route.name}
                 </NavLink>

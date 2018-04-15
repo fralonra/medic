@@ -11,9 +11,9 @@ export default function* authSagas() {
 function* query(data) {
   yield put({type: actionTypes.FETCH_START});
   try {
-    const res = yield call(get, api.query, { keyword: data.payload});
+    const res = yield call(get, buildQuery(data.payload));
     if (!res.error) {
-      yield call(queryHnadle, res.result);
+      yield call(queryHandle, res.entry);
     } else {
       yield put({
         type: actionTypes.MESSAGE_SET,
@@ -29,9 +29,13 @@ function* query(data) {
   }
 }
 
-function* queryHnadle(data) {
+function* queryHandle(data) {
   return yield put({
     type: actionTypes.QUERY_DONE,
     payload: data
   });
+}
+
+function buildQuery(data) {
+  return `${api.query}/${data}`;
 }

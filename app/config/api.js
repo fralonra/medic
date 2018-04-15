@@ -4,6 +4,8 @@ const apis = {
   userLogout: '/auth/logout',
   userSignup: '/auth/signup',
 
+  entry: '/entry',
+
   query: '/query'
 };
 
