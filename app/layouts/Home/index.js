@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import { Container,
   Nav, Navbar } from 'reactstrap';
 import { withRouter } from 'react-router-dom';
 
 import { Search } from 'APP/components';
-import actions from 'APP/store/actions';
 
 import './index.less';
 
@@ -15,8 +13,8 @@ class Home extends Component {
   }
 
   search (query) {
-    this.props.setKeyword(query);
-    this.props.history.push('/query');
+    if (query === '') return;
+    this.props.history.push(`/query/${query}`);
   }
 
   render () {
@@ -34,19 +32,4 @@ class Home extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  return {};
-};
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    setKeyword: (payload) => {
-      dispatch(actions.queryKeywordSet(payload));
-    }
-  };
-};
-
-export default withRouter(connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Home));
+export default withRouter(Home);

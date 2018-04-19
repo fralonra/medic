@@ -12,10 +12,21 @@ import './index.less';
 class Query extends Component {
   constructor (props) {
     super(props);
+
+    this.state = {
+      keyword: props.keyword
+    };
+
+    this.search(this.state.keyword);
+
+    this.searchResult = this.searchResult.bind(this);
   }
 
-  search (query) {
-    this.props.search(query);
+  search (keyword) {
+    this.setState({
+      keyword
+    });
+    this.props.search(keyword);
   }
 
   listItem ({ entry }) {
@@ -25,49 +36,60 @@ class Query extends Component {
           <NavLink to={`/e/${entry.title}`}>{entry.title}</NavLink>
         </ListGroupItemHeading>
         <ListGroupItemText>
-          {entry.language}
+          {entry.lang}
         </ListGroupItemText>
       </ListGroupItem>
     );
   }
 
-  componentDidMount() {
-    this.props.search(this.props.keyword);
+  searchResult () {
+    const ListItem = this.listItem;
+    const { entries } = this.props;
+    const { keyword } = this.state;
+    const list = Object.keys(entries);
+    return list.length > 0 ? (
+      <ListGroup className="query-list">
+        {list.map(e => <ListItem entry={entries[e]} />)}
+      </ListGroup>
+    ) : (
+      <p>
+        <h5>Sorry, entry not found for keyword: <b>{keyword}</b></h5>
+        <h5>You can <NavLink to={`/edit/${keyword}`}>create</NavLink> the entry now</h5>
+      </p>
+    );
   }
 
   render () {
-    const ListItem = this.listItem;
-    const { keyword, entries } = this.props;
-    return (entries.length === 1 ? (
-        <Redirect to={`/e/${keyword}`}/>
-      ) : (
+    const SearchResult = this.searchResult;
+    const { isFetching, entries } = this.props;
+    const { keyword } = this.state;
+    return entries[keyword] ? (
+      <Redirect to={`/e/${keyword}`}/>
+    ) : (
       <div className="query-wrapper">
         <h4>Result for keyword: <b>{keyword}</b></h4>
-        <Search value={keyword} onSubmit={(query) => {this.search(query)}}/>
-        {entries.length > 0 ? (
-          <ListGroup className="query-list">
-            {entries.map(e => {
-              <ListItem entry={entries}/>
-            })}
-          </ListGroup>
+        {isFetching ? (
+          <p>Searching for entries that match keyword <b>{keyword}</b></p>
         ) : (
           <div>
-            <h5>Sorry, entry not found for keyword: <b>{keyword}</b></h5>
-            <h5>You can <NavLink to={`/e/${keyword}`}>create</NavLink> the entry now</h5>
+            <Search value={keyword} onSubmit={(keyword) => {this.search(keyword)}}/>
+            <SearchResult />
           </div>
         )}
       </div>
-    ));
+    );
   }
 }
 
 Query.propTypes = {
-
+  isFetching: PropTypes.bool,
+  keyword: PropTypes.string,
+  entries: PropTypes.object
 };
 
 const mapStateToProps = (state) => {
   return {
-    keyword: state.query.keyword,
+    isFetching: state.global.isFetching,
     entries: state.query.entries
   };
 };

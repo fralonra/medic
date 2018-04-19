@@ -7,6 +7,7 @@ import About from './About';
 import Home from './Home';
 import Profile from './Profile';
 
+import Editor from './Editor';
 import Entry from './Entry';
 import Login from './Login';
 import Query from './Query';
@@ -22,6 +23,7 @@ export {
   Home,
   Profile,
   // Others
+  Editor,
   Entry,
   Login,
   Query

@@ -15,7 +15,13 @@ function* delEntry(data) {
   try {
     const res = yield call(del, api.entry);
     if (!res.error) {
-
+      yield put({
+        type: actionTypes.MESSAGE_SET,
+        message: {
+          type: messageTypes.INFO,
+          text: `Delete entry succeeded: ${data.title}`
+        }
+      });
     } else {
       yield put({
         type: actionTypes.MESSAGE_SET,
@@ -36,7 +42,13 @@ function* postEntry(data) {
   try {
     const res = yield call(post, api.entry, data.payload);
     if (!res.error) {
-
+      yield put({
+        type: actionTypes.MESSAGE_SET,
+        message: {
+          type: messageTypes.INFO,
+          text: `Post entry succeeded: ${data.title}`
+        }
+      });
     } else {
       yield put({
         type: actionTypes.MESSAGE_SET,
@@ -57,7 +69,13 @@ function* putEntry(data) {
   try {
     const res = yield call(httpPut, api.entry, data.payload);
     if (!res.error) {
-
+      yield put({
+        type: actionTypes.MESSAGE_SET,
+        message: {
+          type: messageTypes.INFO,
+          text: `Put entry succeeded: ${data.title}`
+        }
+      });
     } else {
       yield put({
         type: actionTypes.MESSAGE_SET,

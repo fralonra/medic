@@ -1,16 +1,17 @@
 const Entry = require('../models/entry');
 
 const initialQuery = {
- keyword: '',
- entry: []
+  keyword: '',
+  entry: []
 };
 
 module.exports = {
   query (req, rep) {
     const keyword = req.params.keyword;
-    Entry.findOne({ title: { $eq: keyword } }, (err, entry) => {
-      if (!entry) {
-        Entry.find({ title: keyword }, (err, entry) => {
+    Entry.find({ title: { $eq: keyword } }, (err, entry) => {
+      if (entry.length === 0) {
+        //Entry.find({ title: /a/i }, (err, entry) => {
+        Entry.find({ $text: { $search: keyword } }, (err, entry) => {
           return rep.send({
             keyword,
             entry

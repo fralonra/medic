@@ -1,22 +1,17 @@
 import { handleActions } from 'redux-actions';
 import { actionTypes as actions } from 'APP/store/actions';
 
+import { mapArrToObj } from 'APP/lib';
+
 const initialState = {
-  keyword: '',
-  entries: []
+  entries: {}
 };
 
 const reducers = handleActions({
   [actions.QUERY_DONE] (state, action) {
     return {
       ...state,
-      entries: action.payload
-    };
-  },
-  [actions.QUERY_KEYWORD_SET] (state, action) {
-    return {
-      ...state,
-      keyword: action.payload
+      entries: mapArrToObj(action.payload, 'title', a => a)
     };
   }
 }, initialState);

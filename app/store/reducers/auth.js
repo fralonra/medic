@@ -2,7 +2,7 @@ import { handleActions } from 'redux-actions';
 import { actionTypes as actions } from 'APP/store/actions';
 
 const initialUser = {
- name: null
+  name: null
 };
 
 const initialState = {

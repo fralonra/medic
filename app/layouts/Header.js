@@ -2,9 +2,10 @@ import React, { Component } from 'react';
 import {
   Row,
   Nav, Navbar, NavbarBrand, NavItem } from 'reactstrap';
+import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-import { Dropdown, DropdownMenu, DropdownToggle, NavLink } from 'APP/components';
+import { Dropdown, DropdownMenu, DropdownToggle, NavLink, Search } from 'APP/components';
 import { navRoute as routes } from 'APP/routes';
 import { style } from 'APP/config';
 
@@ -28,12 +29,24 @@ class Header extends Component {
     return result;
   }
 
+  search (query) {
+    this.props.history.push(`/query/${query}`);
+  }
+
+  searchShown () {
+    const { location } = this.props;
+    return (location.pathname !== '/' && !location.pathname.match(/^\/query\/.+/));
+  }
+
   render () {
     const { user, logout } = this.props;
     return (
       <Navbar className="header" style={styles.header}>
         <NavbarBrand href="/">medic</NavbarBrand>
-        <Row>
+        <Row className="header-right">
+          {this.searchShown() && (
+            <Search style={styles.search} onSubmit={(query) => {this.search(query)}} iconPosition="in" />
+          )}
           <Nav className="header-navbar">
             {routes.map((route, index) => {
               const param = route.paramFromProp ? this.getParamFromProp(route.paramFromProp) : '';
@@ -68,4 +81,4 @@ Header.propTypes = {
   logout: PropTypes.func
 };
 
-export default Header;
+export default withRouter(Header);

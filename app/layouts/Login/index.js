@@ -14,6 +14,13 @@ import { authTypes, messageTypes } from 'APP/store/types';
 
 import './index.less';
 
+const styles = {
+  rememberMe: {
+    marginLeft: '0.25rem',
+    textAlign: 'left'
+  }
+}
+
 const LoginTab = 'Login';
 const SignupTab = 'Sign Up';
 const usernameMin = 3;
@@ -137,7 +144,7 @@ class Login extends Component {
         </InputGroup>
         <br />
         {this.state.activeTab === LoginTab ?
-          <FormGroup check>
+          <FormGroup style={styles.rememberMe} check>
             <Label check>
               <Input type="checkbox" />
               Remember Me
